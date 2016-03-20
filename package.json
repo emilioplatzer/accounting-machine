@@ -1,0 +1,54 @@
+{
+  "name": "accounting-machine",
+  "description": "database based machine for accounting backend",
+  "version": "0.0.1",
+  "author": "Emilio Platzer <emilioplatzer@gmail.com>",
+  "license": "MIT",
+  "repository": "emilioplatzer/accounting-machine",
+  "main": "lib/accounting-machine.js",
+  "files": [
+    "lib"
+  ],
+  "dependencies": {
+    "best-promise": "~0.2.4",
+    "pg-promise-strict": "~0.0.1"
+  },
+  "devDependencies": {
+    "expect.js": "~0.3.1",
+    "fs-extra": "~0.26.5",
+    "fs-promise": "~0.5.0",
+    "istanbul": "~0.4.2",
+    "mocha": "~2.4.5"
+  },
+  "engines": {
+    "node": ">= 0.12"
+  },
+  "scripts": {
+    "test": "mocha --reporter spec --bail --check-leaks test/",
+    "test-ci": "istanbul cover node_modules/mocha/bin/_mocha --report lcovonly -- --reporter spec --check-leaks test/",
+    "test-cov": "istanbul cover node_modules/mocha/bin/_mocha -- --reporter dot --check-leaks test/",
+    "start": "node example/server.js"
+  },
+  "jshintConfig": {
+    "asi": false,
+    "forin": true,
+    "curly": true
+  },
+  "eslintConfig": {
+    "env": {
+      "node": false
+    },
+    "rules": {
+      "strict": 0,
+      "no-console": 1,
+      "no-unused-vars": 1
+    }
+  },
+  "qa-control": {
+    "package-version": "0.1.4",
+    "coverage": 100,
+    "run-in": "server",
+    "stability": "extending",
+    "type": "lib"
+  }
+}
