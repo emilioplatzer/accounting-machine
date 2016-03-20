@@ -12,6 +12,20 @@ var AccountingMachine = require('../lib/accounting-machine.js');
 describe("stories", function(){
     var config;
     var dbClient;
+    it("combinar", function(){
+        expect(AccountingMachine.combinar({
+            claves:['uno', 'dos', 'tres'],
+            valores:[
+                [1  , '2', 'tres'  ],
+                ['-', '.', 'cuatro'],
+                ['¬', '' , '”'     ]
+            ]
+        })).to.eql([
+            {uno:1   , dos:'2' , tres:'tres'  },
+            {uno:null, dos:null, tres:'cuatro'},
+            {uno:null, dos:''  , tres:'cuatro'}
+        ])
+    });
     before(function(done){
         Promises.start(function(){
             return MiniTools.readConfig([
@@ -39,33 +53,54 @@ describe("stories", function(){
             it(fileName,function(done){
                 fs.readFile(dirName+fileName, 'utf8').then(function(content){
                     var estado='log';
-                    var campos;
-                    var datos;
+                    var claves;
+                    var valores;
                     var cdp = Promises.start();
+                    function split(line){
+                        return (' '+line).trim().split(/\s+/);
+                    }
                     content.split('\n').forEach(function(line){
+                        var operacion;
+                        var operacionDef;
+                        var operacionParams;
+                        var operaiones={
+                            asiento:{hacer: function(am, claves, valores, params){
+                                return am.agregarAsiento({claves, valores});
+                            }},
+                            saldos :{hacer: function(am, claves, valores, params){
+                                return am.obtenerSaldos(params).then(function(saldos){
+                                    expect(saldos.sort()).to.eql(am.combinar({claves, valores}));
+                                });
+                            }}
+                        }
                         cdp = cdp.then(function(){
                             switch(estado){
                             case 'log':
                                 if(line.startsWith('#')){
                                     console.log(line);
                                 };
-                                if(line.startsWith('```asiento')){
-                                    estado='asiento-primera-linea';
-                                    datos=[];
+                                if(line.startsWith('```')){
+                                    var operacion = line.split(':')[0].substr(3);
+                                    operacionParams = (line.split(':')[1]||'').split(',');
+                                    operacionDef = operaciones[operacion];
+                                    if(!operacionDef){
+                                        done('code not valid: '+code);
+                                    }else{
+                                        estado='primera-linea';
+                                        valores=[];
+                                    }
                                 }
                             break;
-                            case 'asiento-primera-linea':
-                                campos=(' '+line).split(/\s+/);
-                                console.log('asiento',campos);
-                                estado='asiento-datos';
-                            break;
-                            case 'asiento-datos':
+                            case 'primera-linea':
+                                claves=split(line);
+                                estado='valores';
+                            break; 
+                            case 'valores':
                                 if(line.startsWith('```')){
-                                    console.log('test');
                                     estado='log';
-                                    return am.agregarAsiento({campos, datos});
+                                    return operacionDef.hacer(am, claves, valores, operacionParams);
                                 }else{
-                                    datos.push((' '+line).split(/\s+/));
+                                    valores.push(split(line));
                                 }
                             break;
                             }

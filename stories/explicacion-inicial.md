@@ -49,7 +49,7 @@ Compremos mercadería para vender
 ```asiento
 fecha      cuenta     importe  producto cantidad precio
 11/1/2016  MERCADERIA   20000  SILLAS         10   2000
-    ”      CAJA        -20000    ¬             ¬      ¬  
+    ”      CAJA        -20000    ¬             ¬      ¬
 ```
 
 los saldos son los esperados:
