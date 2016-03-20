@@ -1,0 +1,7 @@
+db:
+  motor: postgresql
+  host: localhost
+  database: test_accounting_db
+  schema: test
+  user: test_accounting_user
+  password: test_accounting_3948812bdz
