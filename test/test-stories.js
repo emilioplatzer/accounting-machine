@@ -9,21 +9,27 @@ var Promises = require('best-promise');
 
 var AccountingMachine = require('../lib/accounting-machine.js');
 
+function cmpObjects (a,b){
+    return JSON.stringify(a).localeCompare(JSON.stringify(b));
+}
+
 describe("stories", function(){
     var config;
     var dbClient;
     it("combinar", function(){
         expect(AccountingMachine.combinar({
-            claves:['uno', 'dos', 'tres'],
+            claves:['cero','uno', 'dos', 'tres'],
             valores:[
-                [1  , '2', 'tres'  ],
-                ['-', '.', 'cuatro'],
-                ['�', '' , '�'     ]
+                ['tres'  ,1  , '2', 'tres'  ],
+                ['cuatro','-', '.', 'cuatro'],
+                ['”'     ,'¬', '' , '”'     ],
+                ['"'     ,'¬', '' , '"'     ]
             ]
         })).to.eql([
-            {uno:1   , dos:'2' , tres:'tres'  },
-            {uno:null, dos:null, tres:'cuatro'},
-            {uno:null, dos:''  , tres:'cuatro'}
+            {cero:'tres'  , uno:1   , dos:'2' , tres:'tres'  },
+            {cero:'cuatro', uno:null, dos:null, tres:'cuatro'},
+            {cero:'cuatro', uno:null, dos:''  , tres:'cuatro'},
+            {cero:'cuatro', uno:null, dos:''  , tres:'cuatro'}
         ])
     });
     before(function(done){
@@ -38,16 +44,15 @@ describe("stories", function(){
             return pg.connect(config.db);
         }).then(function(client){
             dbClient = client;
+            dbClient.query("delete from test.movimientos").execute();
         }).then(done,done);
     });
-    console.log('entro');
     var dirName = "stories/";
     fs.readdirSync(dirName).forEach(function(fileName){
-        console.log('fn',fileName);
         if(fileName.endsWith('.md')){
             var am;
             before(function(done){
-                am = new AccountingMachine.Machine(dbClient);
+                am = new AccountingMachine.Machine(config.db);
                 done();
             });
             it(fileName,function(done){
@@ -59,20 +64,20 @@ describe("stories", function(){
                     function split(line){
                         return (' '+line).trim().split(/\s+/);
                     }
+                    var operacion;
+                    var operacionDef;
+                    var operacionParams;
+                    var operaciones={
+                        asiento:{hacer: function(am, claves, valores, params){
+                            return am.agregarAsiento({claves, valores});
+                        }},
+                        saldos :{hacer: function(am, claves, valores, params){
+                            return am.obtenerSaldos(params).then(function(saldos){
+                                expect(saldos.sort(cmpObjects)).to.eql(AccountingMachine.combinar({claves, valores}).sort(cmpObjects));
+                            });
+                        }}
+                    }
                     content.split('\n').forEach(function(line){
-                        var operacion;
-                        var operacionDef;
-                        var operacionParams;
-                        var operaiones={
-                            asiento:{hacer: function(am, claves, valores, params){
-                                return am.agregarAsiento({claves, valores});
-                            }},
-                            saldos :{hacer: function(am, claves, valores, params){
-                                return am.obtenerSaldos(params).then(function(saldos){
-                                    expect(saldos.sort()).to.eql(am.combinar({claves, valores}));
-                                });
-                            }}
-                        }
                         cdp = cdp.then(function(){
                             switch(estado){
                             case 'log':
@@ -80,7 +85,7 @@ describe("stories", function(){
                                     console.log(line);
                                 };
                                 if(line.startsWith('```')){
-                                    var operacion = line.split(':')[0].substr(3);
+                                    operacion = line.split(':')[0].substr(3);
                                     operacionParams = (line.split(':')[1]||'').split(',');
                                     operacionDef = operaciones[operacion];
                                     if(!operacionDef){
