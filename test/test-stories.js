@@ -4,8 +4,10 @@ require('fs-extra');
 var fs = require('fs-promise');
 var pg = require('pg-promise-strict');
 var expect = require('expect.js');
+
 var MiniTools = require('mini-tools');
 var Promises = require('best-promise');
+require('best-globals').setGlobals(global);
 
 var AccountingMachine = require('../lib/accounting-machine.js');
 
@@ -41,19 +43,21 @@ describe("stories", function(){
             ]);
         }).then(function(configReaded){
             config = configReaded;
-            return pg.connect(config.db);
-        }).then(function(client){
-            dbClient = client;
-            dbClient.query("delete from test.movimientos").execute();
         }).then(done,done);
     });
     var dirName = "stories/";
     fs.readdirSync(dirName).forEach(function(fileName){
         if(fileName.endsWith('.md')){
             var am;
-            before(function(done){
-                am = new AccountingMachine.Machine(config.db);
-                done();
+            beforeEach(function(done){
+                Promises.start(function(){
+                    return pg.connect(config.db);
+                }).then(function(client){
+                    dbClient = client;
+                    return dbClient.query("delete from test.movimientos").execute();
+                }).then(function(){
+                    am = new AccountingMachine.Machine(config.db);
+                }).then(done,done);
             });
             it(fileName,function(done){
                 fs.readFile(dirName+fileName, 'utf8').then(function(content){
@@ -64,18 +68,29 @@ describe("stories", function(){
                     function split(line){
                         return (' '+line).trim().split(/\s+/);
                     }
+                    var prefijoPendiente;
+                    var prefijoInfo;
                     var operacion;
                     var operacionDef;
                     var operacionParams;
                     var operaciones={
-                        asiento:{hacer: function(am, claves, valores, params){
-                            return am.agregarAsiento({claves, valores});
-                        }},
-                        saldos :{hacer: function(am, claves, valores, params){
-                            return am.obtenerSaldos(params).then(function(saldos){
-                                expect(saldos.sort(cmpObjects)).to.eql(AccountingMachine.combinar({claves, valores}).sort(cmpObjects));
-                            });
-                        }}
+                        asiento:{
+                            conPrefijo:true,
+                            hacer: function(am, claves, valores, params){
+                                return am.agregarAsiento({
+                                    encabezado: AccountingMachine.combinar(prefijoInfo),
+                                    renglones:  AccountingMachine.combinar({claves, valores})
+                                });
+                            }
+                        },
+                        saldos :{
+                            conPrefijo:null,
+                            hacer: function(am, claves, valores, params){
+                                return am.obtenerSaldos(params).then(function(saldos){
+                                    expect(saldos.sort(cmpObjects)).to.eql(AccountingMachine.combinar({claves, valores}).sort(cmpObjects));
+                                });
+                            }
+                        }
                     }
                     content.split('\n').forEach(function(line){
                         cdp = cdp.then(function(){
@@ -94,6 +109,8 @@ describe("stories", function(){
                                         estado='primera-linea';
                                         valores=[];
                                     }
+                                    prefijoPendiente = operacionDef.conPrefijo;
+                                    prefijoInfo = null;
                                 }
                             break;
                             case 'primera-linea':
@@ -101,7 +118,11 @@ describe("stories", function(){
                                 estado='valores';
                             break; 
                             case 'valores':
-                                if(line.startsWith('```')){
+                                if(prefijoPendiente){
+                                    prefijoInfo = {claves, valores:[split(line)]};
+                                    estado='primera-linea';
+                                    prefijoPendiente=false;
+                                }else if(line.startsWith('```')){
                                     estado='log';
                                     return operacionDef.hacer(am, claves, valores, operacionParams);
                                 }else{
@@ -111,10 +132,13 @@ describe("stories", function(){
                             }
                         });
                     });
-                    cdp.then(function(){
+                    return cdp.then(function(){
                         console.log('listo');
-                        done();
-                    }).catch(done);
+                    }).then(done)/*.catch(function(err){
+                        console.log(err);
+                        console.log(err.stack);
+                        throw err;
+                    });*/
                 }).catch(done);
             });
         }

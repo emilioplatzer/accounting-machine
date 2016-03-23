@@ -10,6 +10,7 @@
     "lib"
   ],
   "dependencies": {
+    "best-globals": "~0.2.4",
     "best-promise": "~0.2.4",
     "pg-promise-strict": "~0.2.3"
   },

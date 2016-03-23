@@ -7,13 +7,17 @@ No es un sistema contable ni debe usarse como tal.
 
 ## Ejemplo: Conformación de una empresa
 
-La empresa se conforma con un aporte inicial societario. 
+Empecemos con un ejemplo simplificado para entender los signos y la conformación de los asientos. 
+
+La empresa se conforma con un aporte inicial de capital por parte de los socios. 
 
 ```asiento
-fecha    cuenta actor importe
-4/1/2016 APORTE PEDRO  -50000
-    ”    APORTE MARIA  -50000
-    ”    CAJA     ¬    100000
+fecha
+4/1/2016
+cuenta  actor importe
+CAPITAL PEDRO  -50000
+CAPITAL MARIA  -50000
+CAJA      ¬    100000
 ```
 
 **Los signos de los importes** se determinan por convención respecto a la cuenta **caja**:
@@ -28,18 +32,18 @@ porque
 Después de este asiento los saldos por cuenta son:
 
 ```saldos:cuenta
-cuenta   saldo
-APORTE -100000
-CAJA    100000
+cuenta    saldo
+CAPITAL -100000
+CAJA     100000
 ```
 
 Y los saldos detallados por actores
 
 ```saldos:cuenta,actor
-cuenta actor   saldo
-APORTE PEDRO  -50000
-APORTE MARIA  -50000
-CAJA     ¬    100000
+cuenta  actor   saldo
+CAPITAL PEDRO  -50000
+CAPITAL MARIA  -50000
+CAJA      ¬    100000
 ```
 
 ## Ejemplo: Ejercicio del comercio
@@ -47,16 +51,18 @@ CAJA     ¬    100000
 Compremos mercadería para vender
 
 ```asiento
-fecha      cuenta     importe  producto cantidad precio
-11/1/2016  MERCADERIA   20000  SILLAS         10   2000
-    ”      CAJA        -20000    ¬             ¬      ¬
+fecha
+11/1/2016
+cuenta     importe  producto cantidad precio
+MERCADERIA   20000  SILLAS         10   2000
+CAJA        -20000    ¬             ¬      ¬
 ```
 
 los saldos son los esperados:
 
 ```saldos:cuenta
 cuenta       saldo
-APORTE     -100000
+CAPITAL    -100000
 CAJA         80000
 MERCADERIA   20000
 ```
@@ -66,17 +72,19 @@ debe registrarse la salida de mercadería al valor al que fue comprada.
 El ingreso en la caja debe ser al valor real, la diferencia es el valor agregado
 
 ```asiento
-fecha      cuenta         importe  producto cantidad precio porcentaje
-11/1/2016  MERCADERIA       -4000  SILLAS         -2   2000          ¬
-    ”      VALOR_AGREGADO    -800  SILLAS         -2   2000         20
-    ”      CAJA              4400    ¬             ¬      ¬          ¬
+fecha      
+11/1/2016  
+cuenta         importe  producto cantidad precio porcentaje
+MERCADERIA       -4000  SILLAS         -2   2000          ¬
+VALOR_AGREGADO    -800  SILLAS         -2   2000         20
+CAJA              4400    ¬             ¬      ¬          ¬
 ```
 
 Y los saldos quedan así:
 
 ```saldos:cuenta
 cuenta           saldo
-APORTE         -100000
+CAPITAL        -100000
 CAJA             84400
 MERCADERIA       16000
 VALOR_AGREGADO    -800
@@ -96,8 +104,8 @@ Podemos ver los saldos detallados hasta ahora:
 
 ```saldos:cuenta,actor,producto
 cuenta         actor producto  saldo
-APORTE         PEDRO    ¬     -50000
-APORTE         MARIA    ¬     -50000
+CAPITAL        PEDRO    ¬     -50000
+CAPITAL        MARIA    ¬     -50000
 CAJA             ¬      ¬      84400
 MERCADERIA       ¬   SILLAS    16000
 VALOR_AGREGADO   ¬   SILLAS     -800
