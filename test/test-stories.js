@@ -22,16 +22,16 @@ describe("stories", function(){
         expect(AccountingMachine.combinar({
             claves:['cero','uno', 'dos', 'tres'],
             valores:[
-                ['tres'  ,1  , '2', 'tres'  ],
-                ['cuatro','-', '.', 'cuatro'],
-                ['”'     ,'¬', '' , '”'     ],
-                ['"'     ,'¬', '' , '"'     ]
+                ['tres'  ,1   , '2', 'tres'  ],
+                ['cuatro','-' , '.', 'cuatro'],
+                ['”'     ,'¬' , '' , '”'     ],
+                ['"'     ,'¬¬', '' , '"'     ]
             ]
         })).to.eql([
             {cero:'tres'  , uno:1   , dos:'2' , tres:'tres'  },
             {cero:'cuatro', uno:null, dos:null, tres:'cuatro'},
             {cero:'cuatro', uno:null, dos:''  , tres:'cuatro'},
-            {cero:'cuatro', uno:null, dos:''  , tres:'cuatro'}
+            {cero:'cuatro', uno:''  , dos:''  , tres:'cuatro'}
         ])
     });
     before(function(done){
@@ -77,10 +77,10 @@ describe("stories", function(){
                         asiento:{
                             conPrefijo:true,
                             hacer: function(am, claves, valores, params){
-                                return am.agregarAsiento({
-                                    encabezado: AccountingMachine.combinar(prefijoInfo),
-                                    renglones:  AccountingMachine.combinar({claves, valores})
-                                });
+                                var encabezado = AccountingMachine.combinar(prefijoInfo)[0];
+                                var renglones  = AccountingMachine.combinar({claves, valores}); 
+                                console.log('asiento', encabezado.asiento);
+                                return am.agregarAsiento({encabezado, renglones});
                             }
                         },
                         saldos :{
