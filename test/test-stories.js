@@ -55,6 +55,8 @@ describe("stories", function(){
                 }).then(function(client){
                     dbClient = client;
                     return dbClient.query("delete from test.movimientos").execute();
+                }).then(function(client){
+                    return dbClient.query("delete from test.asientos").execute();
                 }).then(function(){
                     am = new AccountingMachine.Machine(config.db);
                 }).then(done,done);

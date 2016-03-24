@@ -61,6 +61,7 @@ BEGIN
     ||coalesce('|a:'||new.actor,'')
     ||coalesce('|p:'||new.producto,'')
     ||coalesce('|$:'||new.precio,'')
+    ||coalesce('|s:'||new.subc,'')
     ||coalesce('|c:'||new.comprobante,'')
     ||coalesce('|n:'||new.numero,'')
     ||coalesce('|f:'||new.firmante,'');

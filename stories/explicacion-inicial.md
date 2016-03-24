@@ -12,8 +12,8 @@ Empecemos con un ejemplo simplificado para entender los signos y la conformació
 La empresa se conforma con un aporte inicial de capital por parte de los socios. 
 
 ```asiento
-fecha
-4/1/2016
+fecha     asiento
+4/1/2016  Conformación_se_sociedad
 cuenta  actor importe
 CAPITAL PEDRO  -50000
 CAPITAL MARIA  -50000
@@ -51,8 +51,8 @@ CAJA      ¬    100000
 Compremos mercadería para vender
 
 ```asiento
-fecha
-11/1/2016
+fecha      asiento
+11/1/2016  Compra_de_10_sillas
 cuenta     importe  producto cantidad precio
 MERCADERIA   20000  SILLAS         10   2000
 CAJA        -20000    ¬             ¬      ¬
@@ -72,12 +72,12 @@ debe registrarse la salida de mercadería al valor al que fue comprada.
 El ingreso en la caja debe ser al valor real, la diferencia es el valor agregado
 
 ```asiento
-fecha      
-11/1/2016  
+fecha      asiento
+11/1/2016  venta_de_2_sillas
 cuenta         importe  producto cantidad precio porcentaje
 MERCADERIA       -4000  SILLAS         -2   2000          ¬
 VALOR_AGREGADO    -800  SILLAS         -2   2000         20
-CAJA              4400    ¬             ¬      ¬          ¬
+CAJA              4800    ¬             ¬      ¬          ¬
 ```
 
 Y los saldos quedan así:
@@ -85,7 +85,7 @@ Y los saldos quedan así:
 ```saldos:cuenta
 cuenta           saldo
 CAPITAL        -100000
-CAJA             84400
+CAJA             84800
 MERCADERIA       16000
 VALOR_AGREGADO    -800
 ```
@@ -106,7 +106,7 @@ Podemos ver los saldos detallados hasta ahora:
 cuenta         actor producto  saldo
 CAPITAL        PEDRO    ¬     -50000
 CAPITAL        MARIA    ¬     -50000
-CAJA             ¬      ¬      84400
+CAJA             ¬      ¬      84800
 MERCADERIA       ¬   SILLAS    16000
 VALOR_AGREGADO   ¬   SILLAS     -800
 ```

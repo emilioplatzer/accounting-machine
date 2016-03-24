@@ -23,7 +23,7 @@ deben registrarse los saldos iniciales de las cuentas.
 fecha     asiento
 1/1/2016  Balance_inicial_de_activos_y_pasivos
 cuenta      actor     importe  comprobante numero vencimiento producto cantidad precio  firmante
-CAJA          ¬         20921     ¬          ¬        ¬         ¬             ¬      ¬     ¬
+CAJA          ¬         25920     ¬          ¬        ¬         ¬             ¬      ¬     ¬
 VALORES       ¬          8000  CHEQUE      3-333   4/1/2016     ¬             ¬      ¬  PEREZ
 VALORES       ¬         20000  CHEQUE      7-777   4/1/2016     ¬             ¬      ¬  AGUIRRE
 BANCO       GALICIA       452     ¬          ¬        ¬         ¬             ¬      ¬     ¬
@@ -31,8 +31,7 @@ MERCADERIA    ¬         36000     ¬          ¬        ¬       SILLA         
 MERCADERIA    ¬         21000     ¬          ¬        ¬       MESA            7   3000     ¬
 PROVEEDORES AUDIO_SRL  -10000  FAC-PROV    1-901  10/12/2015    ¬             ¬      ¬     ¬
 PROVEEDORES AUDIO_SRL  -15000  FAC-PROV    1-922  20/12/2015    ¬             ¬      ¬     ¬
-INICIO        ¬        -66372     ¬          ¬        ¬         ¬             ¬      ¬     ¬
-CAJA          ¬         20921     ¬          ¬        ¬         ¬             ¬      ¬     ¬
+INICIO        ¬        -86372     ¬          ¬        ¬         ¬             ¬      ¬     ¬
 ```
 
 La cuenta INICIO está para balancear y poder empezar a usar el programa lo antes posible,
@@ -42,9 +41,9 @@ luego hay que discriminar cómo está conformado ese INICIO. Por ejemplo:
 fecha     asiento
 1/1/2016  Balance_inicial_de_conformación_del_capital_y_posición
 cuenta         actor   importe
-INICIO           ¬       66372
-CAPITAL        MARIA    -30000
-CAPITAL        PEDRO    -30000
+INICIO           ¬       86372
+CAPITAL        MARIA    -40000
+CAPITAL        PEDRO    -40000
 VALOR_AGREGADO   ¬       -6372
 ```
 
@@ -112,15 +111,15 @@ La columna **subc** (subcuenta) indica cuando hay registros de cancelación
 
 ```saldos:cuenta,actor
 cuenta         actor            saldo
-CAJA             ¬               8920
+CAJA             ¬              13820
 BANCO          GALICIA            452
-PROVEEDORES    LA_MUEBLERIA_SA -24200
+PROVEEDORES    LA_MUEBLERIA_SA -12100
+PROVEEDORES    AUDIO_SRL         3000
 MERCADERIA       ¬              77000
 IVA_COMPRAS      ¬               4200       
-CAPITAL        MARIA           -30000
-CAPITAL        PEDRO           -30000
+CAPITAL        MARIA           -40000
+CAPITAL        PEDRO           -40000
 VALOR_AGREGADO   ¬              -6372
-INICIO           ¬                  0
 ```
 
 ## Ejemplo: El primer comprobante, una facutra de compra
