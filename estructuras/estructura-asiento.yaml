@@ -1,0 +1,49 @@
+main-form: encabezado
+formularios:
+  encabezado:
+    celdas:
+    - titulo: Encabezado del asiento
+      aclaracion: (datos comunes a todos los renglones)
+    - pregunta: Fecha
+      texto: ¿en qué fecha se produjo el asiento?
+      aclaracion: en caso de comprobantes ingrese la fecha de emisión del comprobante
+      typeInfo: 
+        typeName: date
+        mandatory: true
+    - pregunta: Asiento
+      texto: ¿cuál es la indentificación única del asiento? 
+      alcaración: no puede repetirse en toda la contabiliad. 
+      typeInfo: text
+        typeName: text
+        mandatory: true
+    - matriz: renglones
+      texto: Renglones del asiento
+  renglones:
+    - pregunta: fecha
+      texto: ¿A qué fecha corresponde el movimiento?
+      aclaracion: va la misma fecha del encabezado del asiento salvo para asientos reumen de conformación inicial de saldos
+      typeInfo: date
+    - pregunta: cuenta
+      texto: ¿Cuál es el nombre de la cuenta?
+      typeInfo: 
+        typeName: text
+        references: cuenta
+    - pregunta: subc
+      texto: ¿tipo de renglón?
+      opciones:
+      - opcion: ""
+        texto: normal
+      - opcion: "CAN"
+        texto: cancelación
+        aclaracion: solo para pagos y otras cancelaciones de comprobantes
+    - pregunta: actor
+      texto: ¿cuál es el código del actor?
+      typeInfo:
+        typeName: text
+        reference: actores
+    - pregunta: importe
+      texto: ¿cuál es el importe del renglón?
+      typeInfo:
+        typeName: numeric
+        excludeCero: true
+    - pregunta

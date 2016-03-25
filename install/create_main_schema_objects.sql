@@ -17,7 +17,7 @@ CREATE TABLE movimientos(
   cuenta text not null,
   actor text,
   importe numeric not null, 
-  producto text,
+  concepto text,
   cantidad numeric,
   precio numeric,
   porcentaje numeric,
@@ -47,8 +47,8 @@ BEGIN
   END IF;
   new.id_movimiento=new.cuenta
     ||coalesce('|a:'||new.actor,'')
-    ||coalesce('|p:'||new.producto,'')
-    ||coalesce('|$:'||new.precio,'')
+    ||coalesce('|c:'||new.concepto,'')
+    ||coalesce('|p:'||new.precio,'')
     ||coalesce('|s:'||new.subc,'')
     ||coalesce('|c:'||new.comprobante,'')
     ||coalesce('|n:'||new.numero,'')

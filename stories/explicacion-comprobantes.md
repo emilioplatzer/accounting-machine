@@ -22,7 +22,7 @@ deben registrarse los saldos iniciales de las cuentas.
 ```asiento
 fecha     asiento
 1/1/2016  Balance_inicial_de_activos_y_pasivos
-cuenta      actor     importe  comprobante numero vencimiento producto cantidad precio  firmante
+cuenta      actor     importe  comprobante numero vencimiento concepto cantidad precio  firmante
 CAJA          ¬         25920     ¬          ¬        ¬         ¬             ¬      ¬     ¬
 VALORES       ¬          8000  CHEQUE      3-333   4/1/2016     ¬             ¬      ¬  PEREZ
 VALORES       ¬         20000  CHEQUE      7-777   4/1/2016     ¬             ¬      ¬  AGUIRRE
@@ -52,7 +52,7 @@ VALOR_AGREGADO   ¬       -6372
 ```asiento
 fecha     comprobante numero  asiento
 11/1/2016 FAC-A-PROV  1-321   FAC-A-PROV_1-321_LA_MUEBLERIA_SA
-cuenta      importe  actor           producto cantidad precio porcentaje vencimiento
+cuenta      importe  actor           concepto cantidad precio porcentaje vencimiento
 MERCADERIA    10000    ¬             SILLA           5   2000          ¬       ¬
 MERCADERIA    10000    ¬             MESA            4   2500          ¬       ¬
 IVA_COMPRAS    4200    ¬               ¬             ¬      ¬         21   31/1/2016

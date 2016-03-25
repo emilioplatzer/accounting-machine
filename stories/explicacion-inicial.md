@@ -53,7 +53,7 @@ Compremos mercadería para vender
 ```asiento
 fecha      asiento
 11/1/2016  Compra_de_10_sillas
-cuenta     importe  producto cantidad precio
+cuenta     importe  concepto cantidad precio
 MERCADERIA   20000  SILLAS         10   2000
 CAJA        -20000    ¬             ¬      ¬
 ```
@@ -74,7 +74,7 @@ El ingreso en la caja debe ser al valor real, la diferencia es el valor agregado
 ```asiento
 fecha      asiento
 11/1/2016  venta_de_2_sillas
-cuenta         importe  producto cantidad precio porcentaje
+cuenta         importe  concepto cantidad precio porcentaje
 MERCADERIA       -4000  SILLAS         -2   2000          ¬
 VALOR_AGREGADO    -800  SILLAS         -2   2000         20
 CAJA              4800    ¬             ¬      ¬          ¬
@@ -102,8 +102,8 @@ las ganancias también son negativas porque la empresa debe ese dinero a los soc
 
 Podemos ver los saldos detallados hasta ahora:
 
-```saldos:cuenta,actor,producto
-cuenta         actor producto  saldo
+```saldos:cuenta,actor,concepto
+cuenta         actor concepto  saldo
 CAPITAL        PEDRO    ¬     -50000
 CAPITAL        MARIA    ¬     -50000
 CAJA             ¬      ¬      84800

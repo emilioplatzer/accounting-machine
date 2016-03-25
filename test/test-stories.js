@@ -102,22 +102,22 @@ describe("manual", function(){
 describe("stories", function(){
     var dbClient;
     var dirName = "stories/";
+    var am;
+    beforeEach(function(done){
+        Promises.start(function(){
+            return pg.connect(config.db);
+        }).then(function(client){
+            dbClient = client;
+            return dbClient.query("delete from test.movimientos").execute();
+        }).then(function(client){
+            return dbClient.query("delete from test.asientos").execute();
+        }).then(function(){
+            am = new AccountingMachine.Machine(config.db);
+            dbClient.done();
+        }).then(done,done);
+    });
     fs.readdirSync(dirName).forEach(function(fileName){
-        if(fileName.endsWith('.md') && fileName=="explicacion-controles.md"){
-            var am;
-            beforeEach(function(done){
-                Promises.start(function(){
-                    return pg.connect(config.db);
-                }).then(function(client){
-                    dbClient = client;
-                    return dbClient.query("delete from test.movimientos").execute();
-                }).then(function(client){
-                    return dbClient.query("delete from test.asientos").execute();
-                }).then(function(){
-                    am = new AccountingMachine.Machine(config.db);
-                    dbClient.done();
-                }).then(done,done);
-            });
+        if(fileName.endsWith('.md') /* && fileName=="explicacion-controles.md"){ // */){
             it(fileName,function(done){
                 fs.readFile(dirName+fileName, 'utf8').then(function(content){
                     var estado='log';
