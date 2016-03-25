@@ -1,7 +1,7 @@
 {
   "name": "accounting-machine",
   "description": "database based machine for accounting backend",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "author": "Emilio Platzer <emilioplatzer@gmail.com>",
   "license": "MIT",
   "repository": "emilioplatzer/accounting-machine",
@@ -49,10 +49,10 @@
     }
   },
   "qa-control": {
-    "package-version": "0.1.4",
+    "package-version": "0.2.0",
     "coverage": 100,
     "run-in": "server",
-    "stability": "extending",
+    "stability": "designing",
     "type": "lib"
   }
 }
