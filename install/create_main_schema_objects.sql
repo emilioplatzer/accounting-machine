@@ -1,9 +1,3 @@
-drop schema if exists test cascade;
-
-create schema test;
-
-SET search_path = test;
-
 CREATE TYPE estado_borrador as enum ('borrador');
 -- ALTER type estados_borrador OWNER TO test_accounting_user;
 
