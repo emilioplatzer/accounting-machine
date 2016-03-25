@@ -1,1 +1,3 @@
 travis: true
+db:
+  port: 5432
