@@ -1,6 +1,6 @@
 language: node_js
 node_js:
-  - "0.12"
+  - "0.12.7"
   - "4.4.1"
   - "5.9.1"
 matrix:
@@ -15,3 +15,6 @@ before_script:
   - psql < ./test/setup/create_test_db.sql
   - psql test_accounting_db < ./test/setup/create_test_schema.sql
   - cp travis-test-config.yaml local-test-config.yaml
+  - npm run transpile-install
+  - npm run transpile-install-test
+  - npm run transpile-run
