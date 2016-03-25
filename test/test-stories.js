@@ -59,6 +59,7 @@ describe("stories", function(){
                     return dbClient.query("delete from test.asientos").execute();
                 }).then(function(){
                     am = new AccountingMachine.Machine(config.db);
+                    dbClient.done();
                 }).then(done,done);
             });
             it(fileName,function(done){
@@ -82,7 +83,21 @@ describe("stories", function(){
                                 var encabezado = AccountingMachine.combinar(prefijoInfo)[0];
                                 var renglones  = AccountingMachine.combinar({claves, valores}); 
                                 console.log('asiento', encabezado.asiento);
-                                return am.agregarAsiento({encabezado, renglones});
+                                var fallaEsperada=(encabezado.falla||'').replace(/_/g,' ');
+                                if(fallaEsperada){
+                                    delete encabezado.falla;
+                                    return am.agregarAsiento({encabezado, renglones}).then(
+                                        function(){
+                                            console.log('asiento', encabezado.asiento,'must fail:',fallaEsperada);
+                                            throw new Error('Fail. Must throw: '+fallaEsperada);
+                                        },
+                                        function(err){
+                                            expect(err.message).to.match(new RegExp(fallaEsperada));
+                                        }
+                                    );
+                                }else{
+                                    return am.agregarAsiento({encabezado, renglones});
+                                }
                             }
                         },
                         saldos :{
@@ -136,11 +151,11 @@ describe("stories", function(){
                     });
                     return cdp.then(function(){
                         console.log('listo');
-                    }).then(done)/*.catch(function(err){
+                    }).then(done).catch(function(err){
                         console.log(err);
                         console.log(err.stack);
                         throw err;
-                    });*/
+                    });
                 }).catch(done);
             });
         }
