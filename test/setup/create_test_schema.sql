@@ -1,8 +1,6 @@
 drop schema if exists test cascade;
 
-create schema test authorization test_accounting_user;
-
-grant all on schema test to test_accounting_user;
+create schema test;
 
 SET search_path = test;
 
