@@ -17,3 +17,15 @@ CAPITAL MARIA  -50000
 CAJA      ¬    100000
 ```
 
+Aunque el asiento esté balanceado, los renglones que refieren a las cancelaciones también deben balancear.
+
+```asiento
+fecha     asiento   falla
+4/1/2016  Pago      Cancelaciones_desbalanceadas
+cuenta      subc  actor     comprobante numero importe
+PROVEEDORES CAN   AUDIO_SRL FAC-A-PROV  1-1       1000
+PROVEEDORES CAN   AUDIO_SRL REC-PROV    1-1       -800
+PROVEEDORES  ¬¬   AUDIO_SRL REC-PROV    1-1        800
+CAJA         ¬¬       ¬        ¬         ¬       -1000
+```
+
