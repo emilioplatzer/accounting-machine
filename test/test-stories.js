@@ -23,6 +23,32 @@ function cmpObjects (a,b){
 
 var config;
 
+pg.originalConnect = pg.connect;
+pg.connect = function(){
+    return this.originalConnect.apply(this, arguments).then(function(dbClient){
+        dbClient.executeSentences = function executeSentences(sentences){
+            var cdp = Promises.start();
+            sentences.forEach(function(sentence){
+                cdp = cdp.then(function(){
+                    return dbClient.query(sentence).execute().catch(function(err){
+                        console.log('ERROR',err);
+                        console.log(sentence);
+                        throw err;
+                    });
+                });
+            });
+            return cdp;
+        }
+        dbClient.executeSqlScript = function executeSqlScript(fileName){
+            return fs.readFile(fileName,'utf-8').then(function(content){
+                var sentences = content.split('\n\n');
+                return dbClient.executeSentences(sentences);
+            });
+        }
+        return dbClient;
+    });
+}
+
 describe("manual", function(){    
     before(function(done){
         var dbClient;
@@ -37,21 +63,9 @@ describe("manual", function(){
             return pg.connect(config.db);
         }).then(function(client){
             dbClient = client;
-            return fs.readFile('./test/setup/create_test_schema.sql','utf-8');
-        }).then(function(content){
-            var sentences = content.split('\n\n');
-            var cdp = Promises.start();
-            console.log('creando nuevo esquema TEST',sentences.length);
-            sentences.forEach(function(sentence){
-                cdp = cdp.then(function(){
-                    return dbClient.query(sentence).execute().catch(function(err){
-                        console.log('ERROR',err);
-                        console.log(sentence);
-                        throw err;
-                    });
-                });
-            });
-            return cdp;
+            return dbClient.executeSqlScript('./test/setup/create_test_schema.sql','utf-8');
+        }).then(function(){
+            return dbClient.executeSqlScript('./install/create_main_schema_objects.sql','utf-8');
         }).then(function(){
             dbClient.done();
         }).then(done,done);
@@ -89,7 +103,7 @@ describe("stories", function(){
     var dbClient;
     var dirName = "stories/";
     fs.readdirSync(dirName).forEach(function(fileName){
-        if(fileName.endsWith('.md')){
+        if(fileName.endsWith('.md') && fileName=="explicacion-controles.md"){
             var am;
             beforeEach(function(done){
                 Promises.start(function(){
