@@ -15,9 +15,20 @@ function cmpObjects (a,b){
     return JSON.stringify(a).localeCompare(JSON.stringify(b));
 }
 
-describe("stories", function(){
-    var config;
-    var dbClient;
+var config;
+
+describe("manual", function(){
+    before(function(done){
+        Promises.start(function(){
+            return MiniTools.readConfig([
+                'package',
+                'def-test-config',
+                'local-test-config'
+            ]);
+        }).then(function(configReaded){
+            config = configReaded;
+        }).then(done,done);
+    });
     it("combinar", function(){
         expect(AccountingMachine.combinar({
             claves:['cero','uno', 'dos', 'tres'],
@@ -34,17 +45,21 @@ describe("stories", function(){
             {cero:'cuatro', uno:''  , dos:''  , tres:'cuatro'}
         ])
     });
-    before(function(done){
-        Promises.start(function(){
-            return MiniTools.readConfig([
-                'package',
-                'def-test-config',
-                'local-test-config'
-            ]);
-        }).then(function(configReaded){
-            config = configReaded;
-        }).then(done,done);
+    it("control that fecha was Date", function(done){
+        var am = new AccountingMachine.Machine(config.db);
+        am.agregarAsiento({
+            encabezado:{fecha:'3/3/2016'}, renglones:[]
+        }).then(function(){
+            done('must control Date type');
+        },function(err){
+            expect(err.message).to.match(/tipo invalido para fecha/);
+            done();
+        }).catch(done);
     });
+});
+
+describe("stories", function(){
+    var dbClient;
     var dirName = "stories/";
     fs.readdirSync(dirName).forEach(function(fileName){
         if(fileName.endsWith('.md')){
