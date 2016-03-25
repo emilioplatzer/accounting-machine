@@ -17,8 +17,9 @@ function cmpObjects (a,b){
 
 var config;
 
-describe("manual", function(){
+describe("manual", function(){    
     before(function(done){
+        var dbClient;
         Promises.start(function(){
             return MiniTools.readConfig([
                 'package',
@@ -27,6 +28,26 @@ describe("manual", function(){
             ]);
         }).then(function(configReaded){
             config = configReaded;
+            return pg.connect(config.db);
+        }).then(function(client){
+            dbClient = client;
+            return fs.readFile('./test/setup/create_test_schema.sql','utf-8');
+        }).then(function(content){
+            var sentences = content.split('\n\n');
+            var cdp = Promises.start();
+            console.log('creando nuevo esquema TEST',sentences.length);
+            sentences.forEach(function(sentence){
+                cdp = cdp.then(function(){
+                    return dbClient.query(sentence).execute().catch(function(err){
+                        console.log('ERROR',err);
+                        console.log(sentence);
+                        throw err;
+                    });
+                });
+            });
+            return cdp;
+        }).then(function(){
+            dbClient.done();
         }).then(done,done);
     });
     it("combinar", function(){

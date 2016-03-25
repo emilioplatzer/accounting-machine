@@ -1,19 +1,21 @@
-﻿drop schema if exists test cascade;
+drop schema if exists test cascade;
+
 create schema test authorization test_accounting_user;
+
 grant all on schema test to test_accounting_user;
 
 SET search_path = test;
 
-CREATE TYPE estados as enum ('vacio','pendiente','ingresado');
-ALTER type estados OWNER TO test_accounting_user;
+CREATE TYPE estado_borrador as enum ('borrador');
+-- ALTER type estados_borrador OWNER TO test_accounting_user;
 
 CREATE TABLE asientos(
   asiento text primary key,
   fecha date not null,
-  borrador boolean unique DEFAULT true,
-  constraint "puede haber un solo asiento borrador" check (borrador=true)
+  borrador estado_borrador unique DEFAULT 'borrador'::estado_borrador,
+  constraint "puede haber un solo asiento borrador" check (borrador='borrador'::estado_borrador)
 );
-ALTER TABLE asientos OWNER TO test_accounting_user;
+-- ALTER TABLE asientos OWNER TO test_accounting_user;
 
 CREATE TABLE movimientos(
   asiento text references asientos(asiento),
@@ -35,7 +37,7 @@ CREATE TABLE movimientos(
   modiu text default user,
   primary key (asiento, id_movimiento)
 );
-ALTER TABLE movimientos OWNER TO test_accounting_user;
+-- ALTER TABLE movimientos OWNER TO test_accounting_user;
 
 CREATE OR REPLACE FUNCTION id_movimientos_trg()
   RETURNS trigger 
@@ -45,7 +47,7 @@ $BODY$
 DECLARE
   vCerrado boolean;
 BEGIN
-  SELECT borrador IS NOT TRUE INTO vCerrado
+  SELECT borrador IS NULL INTO vCerrado
     FROM asientos
     WHERE asiento = new.asiento;
   IF vCerrado THEN
@@ -78,8 +80,7 @@ DECLARE
   vAsientosDesbalanceados record;
   vMalos numeric;
 BEGIN
-  IF new.borrador THEN
-  else
+  IF new.borrador IS NULL THEN
     FOR vAsientosDesbalanceados IN 
       SELECT asiento, NULLIF(subc,'')||':'||cuenta as cancelacion, sum(importe) as diferencia
         FROM movimientos
