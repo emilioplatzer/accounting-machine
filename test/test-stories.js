@@ -7,9 +7,15 @@ var expect = require('expect.js');
 
 var MiniTools = require('mini-tools');
 var Promises = require('best-promise');
-require('best-globals').setGlobals(global);
+var changing = require('best-globals').changing;
 
-var AccountingMachine = require('../lib/accounting-machine.js');
+if(process.version.match(/v0/)){
+    var AccountingMachine = require('../lib/accounting-machine-es5.js');
+    require("es6-shim");
+    // require("node_modules/es6-transpiler/node_modules/es6-shim/es6-shim");
+}else{
+    var AccountingMachine = require('../lib/accounting-machine.js');
+}
 
 function cmpObjects (a,b){
     return JSON.stringify(a).localeCompare(JSON.stringify(b));
@@ -96,12 +102,12 @@ describe("stories", function(){
                             conPrefijo:true,
                             hacer: function(am, claves, valores, params){
                                 var encabezado = AccountingMachine.combinar(prefijoInfo)[0];
-                                var renglones  = AccountingMachine.combinar({claves, valores}); 
+                                var renglones  = AccountingMachine.combinar({claves:claves, valores:valores}); 
                                 console.log('asiento', encabezado.asiento);
                                 var fallaEsperada=(encabezado.falla||'').replace(/_/g,' ');
                                 if(fallaEsperada){
                                     delete encabezado.falla;
-                                    return am.agregarAsiento({encabezado, renglones}).then(
+                                    return am.agregarAsiento({encabezado:encabezado, renglones:renglones}).then(
                                         function(){
                                             console.log('asiento', encabezado.asiento,'must fail:',fallaEsperada);
                                             throw new Error('Fail. Must throw: '+fallaEsperada);
@@ -111,7 +117,7 @@ describe("stories", function(){
                                         }
                                     );
                                 }else{
-                                    return am.agregarAsiento({encabezado, renglones});
+                                    return am.agregarAsiento({encabezado:encabezado, renglones:renglones});
                                 }
                             }
                         },
@@ -119,7 +125,7 @@ describe("stories", function(){
                             conPrefijo:null,
                             hacer: function(am, claves, valores, params){
                                 return am.obtenerSaldos(params).then(function(saldos){
-                                    expect(saldos.sort(cmpObjects)).to.eql(AccountingMachine.combinar({claves, valores}).sort(cmpObjects));
+                                    expect(saldos.sort(cmpObjects)).to.eql(AccountingMachine.combinar({claves:claves, valores:valores}).sort(cmpObjects));
                                 });
                             }
                         }
@@ -151,7 +157,7 @@ describe("stories", function(){
                             break; 
                             case 'valores':
                                 if(prefijoPendiente){
-                                    prefijoInfo = {claves, valores:[split(line)]};
+                                    prefijoInfo = {claves:claves, valores:[split(line)]};
                                     estado='primera-linea';
                                     prefijoPendiente=false;
                                 }else if(line.startsWith('```')){
