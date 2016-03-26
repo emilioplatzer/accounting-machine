@@ -9,9 +9,12 @@
   "entrypoint": "accounting-machine.js",
   "files": ["lib", "lib-trans"],
   "dependencies": {
+    "es6-shim": "~0.35.0",
+    "es6-transpiler": "~0.7.18",
+    "lodash": "~4.6.1",
+    
     "best-globals": "~0.2.4",
     "best-promise": "~0.2.4",
-    "lodash": "~4.6.1",
     "pg-promise-strict": "~0.2.3"
   },
   "devDependencies": {
@@ -30,10 +33,7 @@
     "test": "mocha --reporter spec --bail --check-leaks test/",
     "test-ci": "istanbul cover node_modules/mocha/bin/_mocha --report lcovonly -- --reporter spec --check-leaks test/",
     "test-cov": "istanbul cover node_modules/mocha/bin/_mocha -- --reporter dot --check-leaks test/",
-    "transpile-install": "npm install es6-transpiler",
-    "transpile-install-test": "npm install es6-shim",
-    "transpile-run-win": "tools\\transpile.cmd",
-    "transpile-run": "node node_modules/es6-transpiler/build/es5/es6toes5.js lib/accounting-machine.js > lib/accounting-machine-es5.js",
+    "postinstall": "node node_modules/es6-transpiler/build/es5/es6toes5.js lib/accounting-machine.js > lib-trans/accounting-machine.js",
     "start": "node example/server.js"
   },
   "jshintConfig": {
