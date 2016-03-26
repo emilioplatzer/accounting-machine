@@ -13,7 +13,7 @@ formularios:
     - pregunta: Asiento
       texto: la indentificación única del asiento
       alcaración: no puede repetirse en toda la contabiliad. 
-      typeInfo: text
+      typeInfo:
         typeName: text
         mandatory: true
     - matriz: renglones
@@ -53,7 +53,7 @@ formularios:
         typeName: text
     - pregunta: cantidad
       texto: cantidad comprada o vendida del concepto mencionado
-      typeInfo: text
+      typeInfo:
         typeName: numeric
         excludeCero: true
     - pregunta: porcentaje
