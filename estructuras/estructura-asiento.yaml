@@ -5,13 +5,13 @@ formularios:
     - titulo: Encabezado del asiento
       aclaracion: (datos comunes a todos los renglones)
     - pregunta: Fecha
-      texto: ¿en qué fecha se produjo el asiento?
+      texto: fecha en que se produjo el asiento
       aclaracion: en caso de comprobantes ingrese la fecha de emisión del comprobante
       typeInfo: 
         typeName: date
         mandatory: true
     - pregunta: Asiento
-      texto: ¿cuál es la indentificación única del asiento? 
+      texto: la indentificación única del asiento
       alcaración: no puede repetirse en toda la contabiliad. 
       typeInfo: text
         typeName: text
@@ -20,16 +20,16 @@ formularios:
       texto: Renglones del asiento
   renglones:
     - pregunta: fecha
-      texto: ¿A qué fecha corresponde el movimiento?
+      texto: fecha del movimiento
       aclaracion: va la misma fecha del encabezado del asiento salvo para asientos reumen de conformación inicial de saldos
       typeInfo: date
     - pregunta: cuenta
-      texto: ¿Cuál es el nombre de la cuenta?
+      texto: nombre o código de la cuenta
       typeInfo: 
         typeName: text
         references: cuenta
     - pregunta: subc
-      texto: ¿tipo de renglón?
+      texto: tipo de renglón
       opciones:
       - opcion: ""
         texto: normal
@@ -46,4 +46,35 @@ formularios:
       typeInfo:
         typeName: numeric
         excludeCero: true
-    - pregunta
+    - pregunta: concepto
+      texto: producto o el servicio comprado o vendido
+      aclaracion: solo para compras y ventas
+      typeInfo:
+        typeName: text
+    - pregunta: cantidad
+      texto: cantidad comprada o vendida del concepto mencionado
+      typeInfo: text
+        typeName: numeric
+        excludeCero: true
+    - pregunta: porcentaje
+      texto: porcentaje aplicado
+      typeInfo:
+        typeName: numeric
+        excludeCero: true
+    - pregunta: comprobante
+      texto: tipo de comprobante
+      typeInfo:
+        typeName: text
+        references: comprobantes
+    - pregunta: numero
+      texto: número de comprobante
+      aclaracion: tiene que ser único para los comprobantes emitidos, para los recibidos puede repetirse por actor
+    - pregunta: vencimiento
+      texto: fecha de vencimiento
+      aclaracion: si no tiene fecha de vencimiento repetir la fecha de emisión
+      typeName: date
+    - pregunta: firmante
+      text: firmante o garante del valor
+      typeInfo:
+        typeName: text
+        references: actores
