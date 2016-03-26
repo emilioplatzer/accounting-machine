@@ -1,7 +1,7 @@
 {
   "name": "accounting-machine",
   "description": "database based machine for accounting backend",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "author": "Emilio Platzer <emilioplatzer@gmail.com>",
   "license": "MIT",
   "repository": "emilioplatzer/accounting-machine",
@@ -33,7 +33,7 @@
     "test": "mocha --reporter spec --bail --check-leaks test/",
     "test-ci": "istanbul cover node_modules/mocha/bin/_mocha --report lcovonly -- --reporter spec --check-leaks test/",
     "test-cov": "istanbul cover node_modules/mocha/bin/_mocha -- --reporter dot --check-leaks test/",
-    "postinstall": "node node_modules/es6-transpiler/build/es5/es6toes5.js lib/accounting-machine.js > lib-trans/accounting-machine.js",
+    "postinstall": "node install/transpile.js",
     "start": "node example/server.js"
   },
   "jshintConfig": {

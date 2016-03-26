@@ -35,4 +35,4 @@ node_modules
 # Local configs
 local-*
 *-local.*
-lib-trans/*.js
+*-trans/*.js
