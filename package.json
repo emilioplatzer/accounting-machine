@@ -1,13 +1,13 @@
 {
   "name": "accounting-machine",
   "description": "database based machine for accounting backend",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "author": "Emilio Platzer <emilioplatzer@gmail.com>",
   "license": "MIT",
   "repository": "emilioplatzer/accounting-machine",
   "main": "triage-esV.js",
   "entrypoint": "accounting-machine.js",
-  "files": ["lib", "lib-trans"],
+  "files": ["lib", "lib-trans", "install", "estructuras", "stories"],
   "dependencies": {
     "es6-shim": "~0.35.0",
     "es6-transpiler": "~0.7.18",
