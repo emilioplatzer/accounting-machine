@@ -1,14 +1,10 @@
 "use strict";
 
-if(!process.env.npm_package_entrypoint){
-    throw new Error('Must fill npm_package_entrypoint');
-}
+var entrypoint = {"path": "lib", "name": "accounting-machine.js"}
 
 if(process.version.match(/v0/)){
     require("es6-shim");
-    var dir = 'lib-trans';
-}else{
-    var dir = 'lib';
+    entrypoint.path += '-trans';
 }
 
-module.exports = require('./'+dir+'/accounting-machine.js');
+module.exports = require('./'+entrypoint.path+'/'+entrypoint.name);

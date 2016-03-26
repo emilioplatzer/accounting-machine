@@ -6,3 +6,4 @@ db:
   port: 5431
   user: test_accounting_user
   password: test_accounting_3948812bdz
+testing: true

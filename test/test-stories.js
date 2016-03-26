@@ -21,32 +21,6 @@ function cmpObjects (a,b){
 
 var config;
 
-pg.originalConnect = pg.connect;
-pg.connect = function(){
-    return this.originalConnect.apply(this, arguments).then(function(dbClient){
-        dbClient.executeSentences = function executeSentences(sentences){
-            var cdp = Promises.start();
-            sentences.forEach(function(sentence){
-                cdp = cdp.then(function(){
-                    return dbClient.query(sentence).execute().catch(function(err){
-                        console.log('ERROR',err);
-                        console.log(sentence);
-                        throw err;
-                    });
-                });
-            });
-            return cdp;
-        }
-        dbClient.executeSqlScript = function executeSqlScript(fileName){
-            return fs.readFile(fileName,'utf-8').then(function(content){
-                var sentences = content.split('\n\n');
-                return dbClient.executeSentences(sentences);
-            });
-        }
-        return dbClient;
-    });
-}
-
 describe("manual", function(){    
     before(function(done){
         this.timeout(5000);
@@ -59,14 +33,9 @@ describe("manual", function(){
             ]);
         }).then(function(configReaded){
             config = configReaded;
-            return pg.connect(config.db);
-        }).then(function(client){
-            dbClient = client;
-            return dbClient.executeSqlScript('./test/setup/create_test_schema.sql','utf-8');
-        }).then(function(){
-            return dbClient.executeSqlScript('./install/create_main_schema_objects.sql','utf-8');
-        }).then(function(){
-            dbClient.done();
+            expect(config.testing).to.ok();
+            expect(config.db.schema).to.eql('test');
+            return AccountingMachine.installDbSchema(config);
         }).then(done,done);
     });
     it("combinar", function(){
@@ -86,7 +55,7 @@ describe("manual", function(){
         ])
     });
     it("control that fecha was Date", function(done){
-        var am = new AccountingMachine.Machine(config.db);
+        var am = new AccountingMachine.Machine(config);
         am.agregarAsiento({
             encabezado:{fecha:'3/3/2016'}, renglones:[]
         }).then(function(){
@@ -111,7 +80,7 @@ describe("stories", function(){
         }).then(function(client){
             return dbClient.query("delete from test.asientos").execute();
         }).then(function(){
-            am = new AccountingMachine.Machine(config.db);
+            am = new AccountingMachine.Machine(config);
             dbClient.done();
         }).then(done,done);
     });
