@@ -5,10 +5,9 @@
   "author": "Emilio Platzer <emilioplatzer@gmail.com>",
   "license": "MIT",
   "repository": "emilioplatzer/accounting-machine",
-  "main": "lib/accounting-machine.js",
-  "files": [
-    "lib"
-  ],
+  "main": "triage-esV.js",
+  "entrypoint": "accounting-machine.js",
+  "files": ["lib", "lib-trans"],
   "dependencies": {
     "best-globals": "~0.2.4",
     "best-promise": "~0.2.4",

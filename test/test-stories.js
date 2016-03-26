@@ -9,12 +9,10 @@ var MiniTools = require('mini-tools');
 var Promises = require('best-promise');
 var changing = require('best-globals').changing;
 
+var AccountingMachine = require('..');
+
 if(process.version.match(/v0/)){
-    var AccountingMachine = require('../lib/accounting-machine-es5.js');
     require("es6-shim");
-    // require("node_modules/es6-transpiler/node_modules/es6-shim/es6-shim");
-}else{
-    var AccountingMachine = require('../lib/accounting-machine.js');
 }
 
 function cmpObjects (a,b){
@@ -51,6 +49,7 @@ pg.connect = function(){
 
 describe("manual", function(){    
     before(function(done){
+        this.timeout(5000);
         var dbClient;
         Promises.start(function(){
             return MiniTools.readConfig([
