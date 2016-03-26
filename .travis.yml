@@ -14,6 +14,3 @@ addons:
 before_script:
   - psql < ./test/setup/create_test_db.sql
   - cp travis-test-config.yaml local-test-config.yaml
-  - npm run transpile-install
-  - npm run transpile-install-test
-  - npm run transpile-run
