@@ -1,7 +1,7 @@
 {
   "name": "accounting-machine",
   "description": "database based machine for accounting backend",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "author": "Emilio Platzer <emilioplatzer@gmail.com>",
   "license": "MIT",
   "repository": "emilioplatzer/accounting-machine",
@@ -24,7 +24,7 @@
     "istanbul": "~0.4.2",
     "mocha": "~2.4.5",
     
-    "mini-tools": "~0.2.3"
+    "mini-tools": "~0.2.5"
   },
   "engines": {
     "node": ">= 0.12"
