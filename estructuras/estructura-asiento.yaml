@@ -19,6 +19,7 @@ formularios:
     - matriz: renglones
       texto: Renglones del asiento
   renglones:
+    celdas:
     - pregunta: fecha
       texto: fecha del movimiento
       aclaracion: va la misma fecha del encabezado del asiento salvo para asientos reumen de conformación inicial de saldos
@@ -30,6 +31,8 @@ formularios:
         references: cuenta
     - pregunta: subc
       texto: tipo de renglón
+      typeInfo:
+        typeName: text
       opciones:
       - opcion: ""
         texto: normal
@@ -44,7 +47,7 @@ formularios:
     - pregunta: importe
       texto: ¿cuál es el importe del renglón?
       typeInfo:
-        typeName: numeric
+        typeName: number
         excludeCero: true
     - pregunta: concepto
       texto: producto o el servicio comprado o vendido
@@ -54,14 +57,16 @@ formularios:
     - pregunta: cantidad
       texto: cantidad comprada o vendida del concepto mencionado
       typeInfo:
-        typeName: numeric
+        typeName: number
         excludeCero: true
-    - pregunta: porcentaje
+    - pregunta: "%"
+      variable: porcentaje
       texto: porcentaje aplicado
       typeInfo:
-        typeName: numeric
+        typeName: number
         excludeCero: true
-    - pregunta: comprobante
+    - pregunta: comp
+      variable: comprobante
       texto: tipo de comprobante
       typeInfo:
         typeName: text
@@ -69,6 +74,9 @@ formularios:
     - pregunta: numero
       texto: número de comprobante
       aclaracion: tiene que ser único para los comprobantes emitidos, para los recibidos puede repetirse por actor
+      typeInfo:
+        typeName: number
+        excludeCero: true
     - pregunta: vencimiento
       texto: fecha de vencimiento
       aclaracion: si no tiene fecha de vencimiento repetir la fecha de emisión
