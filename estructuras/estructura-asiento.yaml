@@ -28,7 +28,7 @@ formularios:
       texto: nombre o código de la cuenta
       typeInfo: 
         typeName: text
-        references: cuenta
+        references: cuentas
     - pregunta: subc
       texto: tipo de renglón
       typeInfo:
@@ -43,7 +43,7 @@ formularios:
       texto: ¿cuál es el código del actor?
       typeInfo:
         typeName: text
-        reference: actores
+        references-x: actores
     - pregunta: importe
       texto: ¿cuál es el importe del renglón?
       typeInfo:
@@ -75,7 +75,7 @@ formularios:
       texto: tipo de comprobante
       typeInfo:
         typeName: text
-        references: comprobantes
+        references-x: comprobantes
     - pregunta: numero
       texto: número de comprobante
       aclaracion: tiene que ser único para los comprobantes emitidos, para los recibidos puede repetirse por actor
@@ -90,4 +90,4 @@ formularios:
       text: firmante o garante del valor
       typeInfo:
         typeName: text
-        references: actores
+        references-x: actores

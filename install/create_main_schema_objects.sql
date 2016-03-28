@@ -5,16 +5,45 @@ CREATE TABLE asientos(
   asiento text primary key,
   fecha date not null,
   borrador estado_borrador unique DEFAULT 'borrador'::estado_borrador,
+  modif timestamp default current_timestamp,
+  modiu text default user,
   constraint "puede haber un solo asiento borrador" check (borrador='borrador'::estado_borrador)
 );
 -- ALTER TABLE asientos OWNER TO test_accounting_user;
+
+CREATE TABLE cuentas(
+  cuenta          text    primary key,
+  con_actor       boolean default true,
+  con_concepto    boolean default false,
+  con_comprobante boolean default false,
+  con_firmante    boolean default false,
+  con_vencimiento boolean default true,
+  con_porcentaje  boolean default false,
+  modif timestamp default current_timestamp,
+  modiu text default user
+);
+
+INSERT INTO cuentas 
+  (cuenta           , con_actor, con_concepto, con_comprobante, con_firmante, con_vencimiento, con_porcentaje ) values
+  ('CAJA'           , false    , false       , false          , false       , false          , false          ),
+  ('BANCO'          , true     , false       , true           , false       , true           , false          ),
+  ('CAPITAL'        , true     , false       , false          , false       , false          , false          ),
+  ('CLIENTES'       , true     , false       , true           , false       , true           , false          ),
+  ('INSUMOS'        , true     , true        , false          , false       , false          , false          ),
+  ('IVA_COMPRAS'    , false    , false       , false          , false       , true           , true           ),
+  ('IVA_VENTAS'     , false    , false       , false          , false       , true           , true           ),
+  ('MERCADERIA'     , true     , true        , false          , false       , false          , false          ),
+  ('PROVEEDORES'    , true     , false       , true           , false       , true           , false          ),
+  ('VALORES'        , false    , false       , true           , true        , true           , false          ),
+  ('VALOR_AGREGADO' , true     , true        , false          , false       , false          , true           ),
+  ('INICIO'         , false    , false       , false          , false       , false          , false          );
 
 CREATE TABLE movimientos(
   asiento text references asientos(asiento),
   id_movimiento text not null,
   fecha date  not null,
   subc text default '' not null,
-  cuenta text not null,
+  cuenta text not null references cuentas(cuenta) on update cascade,
   actor text,
   importe numeric not null, 
   concepto text,
