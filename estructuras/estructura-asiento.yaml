@@ -59,6 +59,11 @@ formularios:
       typeInfo:
         typeName: number
         excludeCero: true
+    - pregunta: precio
+      texto: precio, costo o monto del concepto mencionado
+      typeInfo:
+        typeName: number
+        excludeCero: true
     - pregunta: "%"
       variable: porcentaje
       texto: porcentaje aplicado
