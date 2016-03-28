@@ -4,6 +4,7 @@ CREATE TYPE estado_borrador as enum ('borrador');
 CREATE TABLE asientos(
   asiento text primary key,
   fecha date not null,
+  observaciones text,
   borrador estado_borrador unique DEFAULT 'borrador'::estado_borrador,
   modif timestamp default current_timestamp,
   modiu text default user,
@@ -32,7 +33,7 @@ INSERT INTO cuentas
   ('INSUMOS'        , true     , true        , false          , false       , false          , false          ),
   ('IVA_COMPRAS'    , false    , false       , false          , false       , true           , true           ),
   ('IVA_VENTAS'     , false    , false       , false          , false       , true           , true           ),
-  ('MERCADERIA'     , true     , true        , false          , false       , false          , false          ),
+  ('MERCADERIA'     , false    , true        , false          , false       , false          , false          ),
   ('PROVEEDORES'    , true     , false       , true           , false       , true           , false          ),
   ('VALORES'        , false    , false       , true           , true        , true           , false          ),
   ('VALOR_AGREGADO' , true     , true        , false          , false       , false          , true           ),

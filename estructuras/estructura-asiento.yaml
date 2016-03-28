@@ -16,6 +16,10 @@ formularios:
       typeInfo:
         typeName: text
         mandatory: true
+    - pregunta: Observaciones
+      texto: para agregar toda la información adicional necesaria
+      typeInfo:
+        typeName: text
     - matriz: renglones
       texto: Renglones del asiento
   renglones:
@@ -24,6 +28,7 @@ formularios:
       texto: fecha del movimiento
       aclaracion: va la misma fecha del encabezado del asiento salvo para asientos reumen de conformación inicial de saldos
       typeInfo: date
+      filtroc: con_fecha
     - pregunta: cuenta
       texto: nombre o código de la cuenta
       typeInfo: 
@@ -33,6 +38,7 @@ formularios:
       texto: tipo de renglón
       typeInfo:
         typeName: text
+      filtroc: con_comprobante
       opciones:
       - opcion: ""
         texto: normal
@@ -44,6 +50,7 @@ formularios:
       typeInfo:
         typeName: text
         references-x: actores
+      filtroc: con_actor
     - pregunta: importe
       texto: ¿cuál es el importe del renglón?
       typeInfo:
@@ -54,40 +61,48 @@ formularios:
       aclaracion: solo para compras y ventas
       typeInfo:
         typeName: text
+      filtroc: con_concepto
     - pregunta: cantidad
       texto: cantidad comprada o vendida del concepto mencionado
       typeInfo:
         typeName: number
         excludeCero: true
+      filtroc: con_concepto
     - pregunta: precio
       texto: precio, costo o monto del concepto mencionado
       typeInfo:
         typeName: number
         excludeCero: true
+      filtroc: con_concepto
     - pregunta: "%"
       variable: porcentaje
       texto: porcentaje aplicado
       typeInfo:
         typeName: number
         excludeCero: true
+      filtroc: con_porcentaje
     - pregunta: comp
       variable: comprobante
       texto: tipo de comprobante
       typeInfo:
         typeName: text
         references-x: comprobantes
+      filtroc: con_comprobante
     - pregunta: numero
       texto: número de comprobante
       aclaracion: tiene que ser único para los comprobantes emitidos, para los recibidos puede repetirse por actor
       typeInfo:
         typeName: number
         excludeCero: true
+      filtroc: con_comprobante
     - pregunta: vencimiento
       texto: fecha de vencimiento
       aclaracion: si no tiene fecha de vencimiento repetir la fecha de emisión
       typeName: date
+      filtroc: con_vencimiento
     - pregunta: firmante
       text: firmante o garante del valor
       typeInfo:
         typeName: text
         references-x: actores
+      filtroc: con_firmante
