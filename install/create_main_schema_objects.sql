@@ -33,10 +33,15 @@ INSERT INTO cuentas
   ('INSUMOS'        , true     , true        , false          , false       , false          , false          ),
   ('IVA_COMPRAS'    , false    , false       , false          , false       , true           , true           ),
   ('IVA_VENTAS'     , false    , false       , false          , false       , true           , true           ),
-  ('MERCADERIA'     , false    , true        , false          , false       , false          , false          ),
+  ('PRODUCTOS'      , false    , true        , false          , false       , false          , false          ),
   ('PROVEEDORES'    , true     , false       , true           , false       , true           , false          ),
   ('VALORES'        , false    , false       , true           , true        , true           , false          ),
   ('VALOR_AGREGADO' , true     , true        , false          , false       , false          , true           ),
+  ('DIF_COSTO'      , false    , true        , false          , false       , false          , false          ),
+  ('DIF_VENTA'      , false    , true        , false          , false       , false          , false          ),
+  ('PRE_COSTO'      , false    , true        , false          , false       , true           , false          ),
+  ('PRE_RESULTADO'  , false    , true        , false          , false       , true           , false          ),
+  ('PRE_VENTA'      , false    , true        , false          , false       , true           , false          ),
   ('INICIO'         , false    , false       , false          , false       , false          , false          );
 
 CREATE TABLE movimientos(
@@ -55,6 +60,7 @@ CREATE TABLE movimientos(
   numero text,
   vencimiento date,
   firmante text,
+  observaciones text,
   modif timestamp default current_timestamp,
   modiu text default user,
   primary key (asiento, id_movimiento)

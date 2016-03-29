@@ -14,7 +14,7 @@ se agrega el concepto de comprobante
 Cuando se desea empezar a controlar a partir de un punto una empresa que ya estaba funcionando
 deben registrarse los saldos iniciales de las cuentas. 
  * Las cuentas como CAJA y BANCOS tienen un solo monetario. 
- * Las cuentas como MERCADERIA necesitan un renglón para cada producto. 
+ * Las cuentas como PRODUCTOS necesitan un renglón para cada producto. 
  * La cuenta de PROVEEDORES indican las facturas que se deben.
  * La cuenta de CLIENTES indican las facturas que emitieron y todavía no se cobraron.
  * La cuenta de VALORES contiene los cheques de tercero u otros valores no divisibles que pueden usarse para pagar o cancelar deudas
@@ -27,8 +27,8 @@ CAJA          ¬         25920     ¬          ¬        ¬         ¬          
 VALORES       ¬          8000  CHEQUE      3-333   4/1/2016     ¬             ¬      ¬  PEREZ
 VALORES       ¬         20000  CHEQUE      7-777   4/1/2016     ¬             ¬      ¬  AGUIRRE
 BANCO       GALICIA       452     ¬          ¬        ¬         ¬             ¬      ¬     ¬
-MERCADERIA    ¬         36000     ¬          ¬        ¬       SILLA          18   2000     ¬
-MERCADERIA    ¬         21000     ¬          ¬        ¬       MESA            7   3000     ¬
+PRODUCTOS     ¬         36000     ¬          ¬        ¬       SILLA          18   2000     ¬
+PRODUCTOS     ¬         21000     ¬          ¬        ¬       MESA            7   3000     ¬
 PROVEEDORES AUDIO_SRL  -10000  FAC-PROV    1-901  10/12/2015    ¬             ¬      ¬     ¬
 PROVEEDORES AUDIO_SRL  -15000  FAC-PROV    1-922  20/12/2015    ¬             ¬      ¬     ¬
 INICIO        ¬        -86372     ¬          ¬        ¬         ¬             ¬      ¬     ¬
@@ -53,8 +53,8 @@ VALOR_AGREGADO   ¬       -6372
 fecha     comprobante numero  asiento
 11/1/2016 FAC-A-PROV  1-321   FAC-A-PROV_1-321_LA_MUEBLERIA_SA
 cuenta      importe  actor           concepto cantidad precio porcentaje vencimiento
-MERCADERIA    10000    ¬             SILLA           5   2000          ¬       ¬
-MERCADERIA    10000    ¬             MESA            4   2500          ¬       ¬
+PRODUCTOS     10000    ¬             SILLA           5   2000          ¬       ¬
+PRODUCTOS     10000    ¬             MESA            4   2500          ¬       ¬
 IVA_COMPRAS    4200    ¬               ¬             ¬      ¬         21   31/1/2016
 PROVEEDORES  -24200  LA_MUEBLERIA_SA   ¬             ¬      ¬          ¬   11/2/2016
 ```
@@ -115,11 +115,10 @@ CAJA             ¬              13820
 BANCO          GALICIA            452
 PROVEEDORES    LA_MUEBLERIA_SA -12100
 PROVEEDORES    AUDIO_SRL         3000
-MERCADERIA       ¬              77000
+PRODUCTOS        ¬              77000
 IVA_COMPRAS      ¬               4200       
 CAPITAL        MARIA           -40000
 CAPITAL        PEDRO           -40000
 VALOR_AGREGADO   ¬              -6372
 ```
 
-## Ejemplo: El primer comprobante, una facutra de compra

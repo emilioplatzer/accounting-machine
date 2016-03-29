@@ -80,8 +80,8 @@ describe("stories", function(){
         }).then(function(client){
             return dbClient.query("delete from test.asientos").execute();
         }).then(function(){
-            am = new AccountingMachine.Machine(config);
             dbClient.done();
+            am = new AccountingMachine.Machine(config);
         }).then(done,done);
     });
     fs.readdirSync(dirName).forEach(function(fileName){
@@ -130,6 +130,12 @@ describe("stories", function(){
                                 return am.obtenerSaldos(params).then(function(saldos){
                                     expect(saldos.sort(cmpObjects)).to.eql(AccountingMachine.combinar({claves:claves, valores:valores}).sort(cmpObjects));
                                 });
+                            }
+                        },
+                        matriz :{
+                            conPrefijo:null,
+                            hacer: function(am, claves, valores, params){
+                                return Promises.resolve();
                             }
                         }
                     }

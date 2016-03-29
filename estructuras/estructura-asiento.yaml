@@ -56,31 +56,6 @@ formularios:
       typeInfo:
         typeName: number
         excludeCero: true
-    - pregunta: concepto
-      texto: producto o el servicio comprado o vendido
-      aclaracion: solo para compras y ventas
-      typeInfo:
-        typeName: text
-      filtroc: con_concepto
-    - pregunta: cantidad
-      texto: cantidad comprada o vendida del concepto mencionado
-      typeInfo:
-        typeName: number
-        excludeCero: true
-      filtroc: con_concepto
-    - pregunta: precio
-      texto: precio, costo o monto del concepto mencionado
-      typeInfo:
-        typeName: number
-        excludeCero: true
-      filtroc: con_concepto
-    - pregunta: "%"
-      variable: porcentaje
-      texto: porcentaje aplicado
-      typeInfo:
-        typeName: number
-        excludeCero: true
-      filtroc: con_porcentaje
     - pregunta: comp
       variable: comprobante
       texto: tipo de comprobante
@@ -95,6 +70,31 @@ formularios:
         typeName: number
         excludeCero: true
       filtroc: con_comprobante
+    - pregunta: cantidad
+      texto: cantidad comprada o vendida del concepto mencionado
+      typeInfo:
+        typeName: number
+        excludeCero: true
+      filtroc: con_concepto
+    - pregunta: concepto
+      texto: producto o el servicio comprado o vendido
+      aclaracion: solo para compras y ventas
+      typeInfo:
+        typeName: text
+      filtroc: con_concepto
+    - pregunta: precio
+      texto: precio, costo o monto del concepto mencionado
+      typeInfo:
+        typeName: number
+        excludeCero: true
+      filtroc: con_concepto
+    - pregunta: "%"
+      variable: porcentaje
+      texto: porcentaje aplicado
+      typeInfo:
+        typeName: number
+        excludeCero: true
+      filtroc: con_porcentaje
     - pregunta: vencimiento
       texto: fecha de vencimiento
       aclaracion: si no tiene fecha de vencimiento repetir la fecha de emisión

@@ -54,7 +54,7 @@ Compremos mercadería para vender
 fecha      asiento
 11/1/2016  Compra_de_10_sillas
 cuenta     importe  concepto cantidad precio
-MERCADERIA   20000  SILLAS         10   2000
+PRODUCTOS    20000  SILLAS         10   2000
 CAJA        -20000    ¬             ¬      ¬
 ```
 
@@ -64,7 +64,7 @@ los saldos son los esperados:
 cuenta       saldo
 CAPITAL    -100000
 CAJA         80000
-MERCADERIA   20000
+PRODUCTOS    20000
 ```
 
 Al registrar la venta de 5 sillas (que obviamente se hace a un precio mayor)
@@ -75,7 +75,7 @@ El ingreso en la caja debe ser al valor real, la diferencia es el valor agregado
 fecha      asiento
 11/1/2016  venta_de_2_sillas
 cuenta         importe  concepto cantidad precio porcentaje
-MERCADERIA       -4000  SILLAS         -2   2000          ¬
+PRODUCTOS        -4000  SILLAS         -2   2000          ¬
 VALOR_AGREGADO    -800  SILLAS         -2   2000         20
 CAJA              4800    ¬             ¬      ¬          ¬
 ```
@@ -86,7 +86,7 @@ Y los saldos quedan así:
 cuenta           saldo
 CAPITAL        -100000
 CAJA             84800
-MERCADERIA       16000
+PRODUCTOS        16000
 VALOR_AGREGADO    -800
 ```
 
@@ -107,6 +107,6 @@ cuenta         actor concepto  saldo
 CAPITAL        PEDRO    ¬     -50000
 CAPITAL        MARIA    ¬     -50000
 CAJA             ¬      ¬      84800
-MERCADERIA       ¬   SILLAS    16000
+PRODUCTOS        ¬   SILLAS    16000
 VALOR_AGREGADO   ¬   SILLAS     -800
 ```
