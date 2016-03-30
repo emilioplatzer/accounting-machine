@@ -34,6 +34,7 @@ INSERT INTO cuentas
   ('IVA_COMPRAS'    , false    , false       , false          , false       , true           , true           ),
   ('IVA_VENTAS'     , false    , false       , false          , false       , true           , true           ),
   ('PRODUCTOS'      , false    , true        , false          , false       , false          , false          ),
+  ('SERVICIOS'      , false    , true        , false          , false       , false          , false          ),
   ('PROVEEDORES'    , true     , false       , true           , false       , true           , false          ),
   ('VALORES'        , false    , false       , true           , true        , true           , false          ),
   ('VALOR_AGREGADO' , true     , true        , false          , false       , false          , true           ),
