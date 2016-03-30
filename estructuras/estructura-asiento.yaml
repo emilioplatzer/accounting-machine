@@ -67,8 +67,7 @@ formularios:
       texto: número de comprobante
       aclaracion: tiene que ser único para los comprobantes emitidos, para los recibidos puede repetirse por actor
       typeInfo:
-        typeName: number
-        excludeCero: true
+        typeName: text
       filtroc: con_comprobante
     - pregunta: cantidad
       texto: cantidad comprada o vendida del concepto mencionado

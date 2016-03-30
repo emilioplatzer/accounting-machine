@@ -48,6 +48,7 @@ INSERT INTO cuentas
 CREATE TABLE movimientos(
   asiento text references asientos(asiento),
   id_movimiento text not null,
+  orden integer not null,
   fecha date  not null,
   subc text default '' not null,
   cuenta text not null references cuentas(cuenta) on update cascade,
