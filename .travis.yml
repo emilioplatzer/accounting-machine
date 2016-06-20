@@ -10,7 +10,7 @@ matrix:
 script: "npm run-script test-ci"
 after_script: "npm install coveralls@2.11.8 && cat ./coverage/lcov.info | coveralls"
 addons:
-  postgresql: "9.5"
+  postgresql: "9.4"
 before_script:
   - psql < ./test/setup/create_test_db.sql
   - psql < ./test/setup/create_comun_schema.sql
