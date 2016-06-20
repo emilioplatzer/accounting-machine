@@ -1,5 +1,4 @@
 CREATE TYPE estado_borrador as enum ('borrador');
--- ALTER type estados_borrador OWNER TO test_accounting_user;
 
 CREATE TABLE asientos(
   asiento text primary key,
@@ -10,8 +9,16 @@ CREATE TABLE asientos(
   modiu text default user,
   constraint "puede haber un solo asiento borrador" check (borrador='borrador'::estado_borrador)
 );
--- ALTER TABLE asientos OWNER TO test_accounting_user;
 
+CREATE OR REPLACE FUNCTION proximo_numero_asiento()
+  RETURNS bigint AS
+$SQL$
+  SELECT COALESCE((SELECT max(asiento::bigint) FROM asientos WHERE asiento ~ '^\d+$'),0)+1;
+$SQL$
+  LANGUAGE sql;
+
+ALTER TABLE asientos ALTER asiento SET DEFAULT proximo_numero_asiento();
+  
 CREATE TABLE cuentas(
   cuenta          text    primary key,
   con_actor       boolean default true,

@@ -50,8 +50,8 @@ VALOR_AGREGADO   ¬       -6372
 ## Ejemplo: El primer comprobante, una facutra de compra
 
 ```asiento
-fecha     comprobante numero  asiento
-11/1/2016 FAC-A-PROV  1-321   FAC-A-PROV_1-321_LA_MUEBLERIA_SA
+fecha     comprobante numero
+11/1/2016 FAC-A-PROV  1-321 
 cuenta      importe  actor           concepto cantidad precio porcentaje vencimiento
 PRODUCTOS     10000    ¬             SILLA           5   2000          ¬       ¬
 PRODUCTOS     10000    ¬             MESA            4   2500          ¬       ¬
@@ -66,8 +66,8 @@ El vencimiento del renglón IVA_COMPRAS se refiere al momento en que debe liquid
 Vamos a cargar un pago parcial en efectivo del 50%
 
 ```asiento
-fecha      asiento
-15/1/2016  REC-PROV_673_LA_MUEBLERIA_SAL
+fecha    
+15/1/2016
 cuenta       subc importe  actor           comprobante numero
 PROVEEDORES  CAN    12100  LA_MUEBLERIA_SA FAC-A-PROV  1-321
 PROVEEDORES  CAN   -12100  LA_MUEBLERIA_SA REC-PROV    673
@@ -88,8 +88,8 @@ utilizando como medio de pago los dos cheques en cartera que suman 28000$.
 Por lo tanto quedarán a cuenta 3000$, el proveedor habrá emitido un recibo por 28000 que indica que 3000$ quedan a cuenta:
 
 ```asiento
-fecha      asiento
-16/1/2016  REC-PROV_333_AUDIO_SRL
+fecha    
+16/1/2016
 cuenta       subc importe  actor      comprobante numero  firmante
 PROVEEDORES  CAN    10000  AUDIO_SRL  FAC-A-PROV  1-901     ¬
 PROVEEDORES  CAN    15000  AUDIO_SRL  FAC-A-PROV  1-922     ¬

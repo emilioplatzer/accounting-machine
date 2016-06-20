@@ -11,10 +11,6 @@ var changing = require('best-globals').changing;
 
 var AccountingMachine = require('..');
 
-if(process.version.match(/v0/)){
-    require("es6-shim");
-}
-
 function cmpObjects (a,b){
     return JSON.stringify(a).localeCompare(JSON.stringify(b));
 }
